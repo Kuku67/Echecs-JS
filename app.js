@@ -1,14 +1,18 @@
 // WAITING MY DOCUMENT TO BE READY BEFORE SETTING UP MY CHESSBOARD
 $(document).ready(() => {
-    ChessBoard();
+    chessBoard();
+    setupStyle();
+    $(window).resize(() => {
+        setupStyle();
+    });
 });
 
 // MORE OPTIMIZED
 
-function ChessBoard() {
+function chessBoard() {
     // SETTING THINGS I NEED LIKE CHESS PIECES AND THE STARTING BACKGROUND COLOR
-    let blackBoard = ["Tour", "Cavalier", "Fou", "Reine", "Roi", "Fou", "Cavalier", "Tour", "Pion", "Pion", "Pion", "Pion","Pion", "Pion","Pion", "Pion"];
-    let whiteBoard = ["Tour", "Cavalier", "Fou", "Roi", "Reine", "Fou", "Cavalier", "Tour", "Pion", "Pion","Pion", "Pion","Pion", "Pion","Pion", "Pion"];
+    let blackBoard = ["black_tower", "black_knight", "black_bishop", "black_queen", "black_king", "black_bishop", "black_knight", "black_tower", "black_pawn", "black_pawn", "black_pawn", "black_pawn","black_pawn", "black_pawn","black_pawn", "black_pawn"];
+    let whiteBoard = ["white_tower", "white_knight", "white_bishop", "white_king", "white_queen", "white_bishop", "white_knight", "white_tower", "white_pawn", "white_pawn","white_pawn", "white_pawn","white_pawn", "white_pawn","white_pawn", "white_pawn"];
     let caseClass = "blanc";
 
     for(let i = 1; i <= 64; i++) {
@@ -17,7 +21,7 @@ function ChessBoard() {
         // ADDING HER CLASS + MY CSS CLASSES NEEDED
         element.className = caseClass + " case";
         // FOR EACH DIV I MAKE, BY THE VALUE OF "i" I KNOW WHAT CHESS PIECE I NEED TO ADD IN THE TAG
-        element.innerHTML = (i <= 16) ? blackBoard[i-1] + " NOIR" : (i > 48) ? whiteBoard[64-i] + " BLANC" : "";
+        element.innerHTML = (i <= 16) ? "<img src='img/" + blackBoard[i-1] + ".png'>" : (i > 48) ? "<img src='img/" + whiteBoard[64-i] + ".png'>" : "";
         // EVERY SINGLE ROW, I SWITCH BACKGROUND COLOR CLASSES SO I GET A PERFECT CHESSBOARD SETUP
         if(i % 8 != 0) {
             caseClass == "blanc" ? caseClass = "noir" : caseClass = "blanc";
@@ -27,34 +31,15 @@ function ChessBoard() {
     }
 }
 
-// LESS OPTIMIZED
-
-// function ChessBoard() {
-
-//     let blackBoard = ["Tour", "Cavalier", "Fou", "Reine", "Roi", "Fou", "Cavalier", "Tour", "Pion", "Pion", "Pion", "Pion","Pion", "Pion","Pion", "Pion"];
-//     let whiteBoard = ["Tour", "Cavalier", "Fou", "Roi", "Reine", "Fou", "Cavalier", "Tour", "Pion", "Pion","Pion", "Pion","Pion", "Pion","Pion", "Pion"];
-//     let caseClass = "blanc";
-
-//     function showCase(nb, color, board) {
-//         switch(color) {
-//             case "NOIR" : rep = board[nb] + " NOIR"; break;
-//             case "BLANC" : rep = board[nb] + " BLANC"; break;
-//         }
-//         return rep;
-//     }
-
-//     for(let i = 1; i <= 64; i++) {
-//         element = document.createElement('div');
-//         element.className = caseClass + " case";
-//         if(i <= 16)
-//             element.innerHTML = showCase(i-1, "NOIR", blackBoard)
-//         if(i > 48)
-//             element.innerHTML = showCase(64-i, "BLANC", whiteBoard)
-//         if(i % 8 != 0)
-//             caseClass == "blanc" ?
-//             caseClass = "noir" :
-//             caseClass = "blanc";
-//         document.getElementById("jeu").appendChild(element);
-//     }
-// }
-
+function setupStyle() {
+    let wrapper = $("#wrapper").width();
+    $("#wrapper").css({
+        "height" : wrapper
+    });
+    let width = $("#wrapper").width()/8;
+    let height = width;
+    $(".case").css({
+        "width" : width,
+        "height" : height
+    });
+}
